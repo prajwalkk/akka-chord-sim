@@ -1,6 +1,7 @@
 lazy val akkaHttpVersion = "10.2.1"
 lazy val akkaVersion = "2.6.10"
 logLevel := Level.Debug
+dockerBaseImage := "openjdk:jre-alpine"
 lazy val root = (project in file(".")).
   settings(
     inThisBuild(List(
@@ -26,8 +27,11 @@ lazy val root = (project in file(".")).
 
     )
   )
-mainClass in(Compile, run) := Some("com.chord.akka.SimulationDriver")
 enablePlugins(JavaAppPackaging)
+enablePlugins(DockerPlugin)
+enablePlugins(AshScriptPlugin)
+mainClass in(Compile, run) := Some("com.chord.akka.SimulationDriver")
+
 
 
 

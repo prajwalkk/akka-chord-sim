@@ -1,35 +1,6 @@
-FROM openjdk:11
+FROM hseeberger/docker-sbt
 
-# Install OpenJDK-11
-RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk && \
-    apt-get install -y ant && \
-    apt-get clean;
+RUN mkdir -p /overlaysim
 
-# Fix certificate issues
-RUN apt-get update && \
-    apt-get install ca-certificates-java && \
-    apt-get clean && \
-    update-ca-certificates -f;
-
-# Setup JAVA_HOME -- useful for docker commandline
-ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-amd64/
-RUN export JAVA_HOME
-
-
-
-ENV SBT_VERSION 0.13.15
-
-RUN \
-  curl -L -o sbt-$SBT_VERSION.deb http://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \
-  dpkg -i sbt-$SBT_VERSION.deb && \
-  rm sbt-$SBT_VERSION.deb && \
-  apt-get update && \
-  apt-get install sbt && \
-  sbt sbtVersion
-
-WORKDIR /chord-algorithm
-
-COPY . /chord-algorithm
-
-CMD sbt run
+WORKDIR /overlaysim
+COPY . /overlaysim
